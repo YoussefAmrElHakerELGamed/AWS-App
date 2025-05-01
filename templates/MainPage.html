@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>File Fetch | Main</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body id="Mainpage">
+        <header class="header">
+            <label><b><h1>File fetch</h1></b></label>
+        </header>
+        <div class="userInput">
+            <label class="Username">User name</label>
+            <div class="upload-container">
+                <input class="Uploud-button" id="Uploud-button" type="file" title="Upload a file"   accept=".jpg,.jpeg,.png,.pdf,.mp3,.mp4">
+                <input class="Uploud-button" id="uploud-button-input" type="button" value="uploud">
+            </div>
+        </div>
+        <div class="files-space">
+            <label class="no-files" id="no-files-uplouded-warning"><b>no files uplouded yet</b></label>
+        </div>
+        <link rel="stylesheet" href="../static/style.css">
+        <script>
+            refreash_file_list();
+            
+            document.getElementById("uploud-button-input").addEventListener("click", (evt) => {
+                const uplouded_file = document.getElementById("Uploud-button").files[0];
+                if(uplouded_file == null){
+                    alert("Enter your file, please")
+                    return;
+                }
+                alert(uplouded_file)
+                fetch('http://localhost:8080/upload', {method: 'GET', body: new FormData().append('file', uplouded_file)}).then(res => res.json).then(data => {
+                    if(data.error){
+                        alert("Upload failed please try again");
+                    }
+                    if(data.message == "File uploaded successfully"){
+                        alert(data.message);
+                        refreash_file_list();
+                    }
+
+                });
+            });
+
+            function refreash_file_list(file){
+                fetch('http://localhost:8080/list_files', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({username,password})
+                }).then(res => res.json()).then(files => {
+                    const file_space = document.getElementById("files-space");
+                    if(data.files.length > 0){
+                        files.forEach(file => {
+                            file_space.innerHTML = "";
+                            const div = document.createElement("div");
+                            div.className = "file-ditals";
+                            div.innerHTML = `
+                                <div class="file-info">
+                                    <label class="filename id="title-">${file.filename}</label>
+                                    <label class="file-uploud-Datetime id="last-modefide-">${file.last_modified}</label>
+                                </div>
+                                 <div class="file-actions">
+                                    <input type="button" class="delete-file" id="delete-button-file-${file.filename}" value="Delete" title="this action CANNOT be undone">
+                                    <input type="button" class="share-file" id="share-button-file-${file.filename}" value="Share">
+                                </div>
+                                `;
+                            file_space.appendChild(div);
+                            div.getElementById("delete-button-file-" + file.filename).addEventListener("click",(evt) => {
+                                fetch('http://localhost:8080/delete/' + file.filename, {method: 'GET'});
+                            });
+
+                            div.getElementById("share-button-file-" + file.filename).addEventListener("click", (evt)=> {
+                                fetch('http://localhost:8080/share/' + file.filename, {method: 'GET'}).then(res => res.json)
+                            .then(data => {
+                                if(data.url){
+                                    navigator.clipboard.writeText(data.url);
+                                    alert('the url has been copyed to your clipboard');
+                                }else{
+                                    alert('failed to get the url');
+                                }
+                            });
+                            });
+                    });
+                    document.removeChild(document.getElementById("no-files-uplouded-warning"));
+                    }else{
+                        if(document.getElementById("no-files-uplouded-warning")){
+                            return;
+                        }
+                        const label = document.createElement("label");
+                        label.value = "no files uplouded yet";
+                        label.id = "no-files-uplouded-warning";
+                        label.className = "no-files";
+                        document.getElementById("files-space").appendChild(label);
+                    }
+                });
+            }
+
+        </script>
+    </body>
+</html>

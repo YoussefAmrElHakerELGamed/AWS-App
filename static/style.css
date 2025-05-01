@@ -1,0 +1,426 @@
+@font-face {
+    font-family: 'pixel';
+    src: url("../visitor1.ttf");
+}
+
+:root{
+    --bg-color: #000000;
+    --fg-color: rgb(22, 22, 22);
+    --highlight-color: rgb(255, 157, 0);
+    --second-color: rgb(178, 110, 0);
+    --alart-color: #D00000;
+    --form-width: 400px;
+    --form-height: 200px;
+    --buttons-width: 200px;
+    --long-buttons-width: 300px;
+    --buttons-height: 35px;
+    --inputs-hight: 30px;
+    --corner-radius: 15px;
+    --small-corner-radius: 10px;
+    --buttons-corner-radius: 10px;
+}
+
+html{
+    font-family: 'pixel', monospace;
+    background-color: var(--bg-color);
+
+    width: 100%;
+    height: 100%;
+
+
+    transition: 0.1ms ease-in-out;
+}
+
+body{
+    height: 100%;
+
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    margin: 0px;
+    
+}
+
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header{
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    
+    align-items: center;
+    background-color: var(--fg-color);
+    border-bottom-style: solid;
+    border-bottom-width: 4px;
+    border-color: var(--highlight-color);
+    overflow: hidden;
+}
+
+.header label{
+    padding-left: 35px;
+    color: var(--highlight-color);
+}
+
+label{
+    color: var(--second-color);
+}
+
+label:hover{
+    color: var(--highlight-color);
+}
+
+input:hover{
+    color: var(--highlight-color);
+    border-color:  var(--highlight-color);
+}
+
+.login, .SignUp{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+
+    background-color: var(--fg-color);
+    border: var(--highlight-color);
+    border-radius: var(--corner-radius);
+    border-width: 4px;
+    border-style: solid;
+    margin: 10px;
+    padding: 20px;
+    overflow: hidden;
+    
+    width: auto;
+    height: auto;
+}
+
+.SignUp{
+    height: auto;
+}
+
+
+.Walcom, .SignUp-title{
+    font-family: 'pixel', monospace;
+    color: var(--highlight-color);
+    font-size: 32px;
+}
+
+.Username-input, .Password-input, .Conf-Password-input{
+    display: flex;
+    flex-direction: column;
+    
+    padding-bottom: 10px;
+    width: var(--form-width);
+
+    label{
+        padding-bottom: 2px;
+        padding-left: 15px;
+    }
+
+}
+
+.username-field, .password-field, .passwordConf-field{
+    height: var(--inputs-hight);
+    background-color: var(--bg-color);
+    border-width: 3px;
+    border-style: solid;
+    border-radius: var(--small-corner-radius);
+    border-color: var(--second-color);
+    
+    font-family: 'pixel', monospace;
+    color: var(--highlight-color);
+    font-size: 18px;
+}
+
+
+.logIn-button, .signUp-button, .Signpage-button, .back-to-login-button
+, .delete-file, .share-file{
+    font-family: 'pixel', monospace;
+    color: var(--highlight-color);
+    font-size: 18px;
+    background-color: var(--bg-color);
+    
+    border-width: 3px;
+    border-style: solid;
+    border-radius: var(--buttons-corner-radius);
+    border-color: var(--second-color);
+    
+    height: var(--buttons-height);
+    width: var(--buttons-width);
+}
+
+.logIn-button:active, .signUp-button:active{
+    background-color: white;
+}
+
+.share-file, .delete-file{
+    width: 150px;
+    color: var(--second-color);
+}
+
+.delete-file{
+    color: var(--alart-color);
+    border-color: var(--alart-color);
+}
+
+
+.delete-file:hover{
+    color: red;
+    border-color: red;
+}
+
+.logIn-button, .Signpage-button{
+    margin-top: 15px;
+}
+
+.back-to-login-button{
+    border-style: none;
+    background-color: transparent;
+    width: var(--long-buttons-width);
+    border-style: none;
+    font-size: 12px;
+}
+
+.username-field:focus, .password-field:focus, .passwordConf-field:focus{
+    border-color: var(--highlight-color);
+}
+
+
+.signUp-button{
+    border-style: none;
+    font-size: 12px;
+}
+
+.logIn-button:hover, .Signpage-button:hover{
+    background-color: #aaaaaa;
+}
+
+.deitals-panal{
+    background-color: var(--fg-color);
+    border-style: solid;
+    border-radius: var(--corner-radius);
+    border-color: var(--highlight-color);
+    border-width: 3px;
+    
+    z-index: 2;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    
+    height: auto;
+    min-height: 100px;
+    width: auto;
+    min-width: 300px;
+    padding: 15px;
+    
+    position: absolute;
+    
+    top: 0px;
+    left: 0px;
+    
+    .file-name{
+        font-size: 23px;
+        text-align: center;
+        text-decoration: none;
+        color: var(--highlight-color);
+    }
+    
+    div{
+        display: flex;
+        flex-direction: column;
+        align-items:flex-start;
+        width: 100%;
+        margin: 5px;
+    }
+}
+
+.userInput{
+    background-color: var(--fg-color);
+    padding: 15px;
+    width: 85%;
+    
+    z-index: 1;
+    
+    border-color: var(--highlight-color);
+    border-style: solid;
+    border-width: 3px;
+    border-radius: var(--corner-radius);
+    
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: space-between;
+    align-items: center;
+    
+    align-self: start;
+
+    position: fixed;
+    top: 65px;
+    
+    label{
+        font-size: 23px;
+        color:var(--highlight-color);
+        display: flex;
+        align-self: center;
+        justify-self: center;
+    }
+    
+    .Uploud-button{
+        background-color: var(--bg-color);
+        color: var(--second-color);
+        border-color: var(--second-color);
+        border-style: solid;
+        border-width: 3px;
+        border-radius: var(--corner-radius);
+    }
+    
+    .Uploud-button:hover{
+        color: var(--highlight-color);
+        border-color: var(--highlight-color);
+    }
+}
+
+.files-space{
+    background-color: var(--fg-color);
+    padding: 15px;
+    width: 85%;
+    
+    z-index: 0;
+    
+    border-color: var(--highlight-color);
+    border-style: solid;
+    border-width: 3px;
+    border-radius: var(--corner-radius);
+    
+    display: flex;
+    flex-direction: column;
+    
+    align-items: stretch;
+    
+    position: absolute;
+    top: 150px;
+    
+    .no-files{
+        text-align: center;
+    }
+    
+    .file-ditals{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        
+        padding-bottom: 25px;
+        
+        .file-info{
+            display: flex;
+            flex-direction: column;
+        
+            .filename{
+                font-size: 23px;
+                color: var(--highlight-color);
+            }
+            
+            .file-uploud-Datetime{
+                font-size: 13px;
+            }
+        }
+    }   
+}
+
+.file-delete-warning{
+    display: flex;
+    flex-direction: column;
+    
+    align-items: center;
+    justify-content: space-between;
+    
+    background-color: var(--fg-color);
+    padding: 15px;
+    
+    z-index: 5;
+    
+    border-color: var(--alart-color);
+    border-style: solid;
+    border-width: 3px;
+    border-radius: var(--corner-radius);
+    
+    width: 200px;
+    height: 150px;
+
+    overflow: hidden;
+    
+    
+    
+    label{
+        font-size: 23px;
+        color: red;
+    }
+    
+    .buttonsContainer{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        
+        .delete-button{
+            border-color: var(--alart-color);
+            border-style: solid;
+            border-width: 3px;
+            border-radius: var(--small-corner-radius);
+            
+            color: var(--alart-color);
+            font-family: 'pixel', monospace;
+            background-color: var(--bg-color);
+            
+            width: 45%;
+            height: 30px;
+        }
+        
+        .delete-button:hover{
+            color: red;
+            border-color: red;
+        }
+        
+        .cancel-button{
+            border-color: var(--second-color);
+            border-style: solid;
+            border-width: 3px;
+            border-radius: var(--small-corner-radius);
+            
+            color: var(--second-color);
+            font-family: 'pixel', monospace;
+            background-color: var(--bg-color);
+            
+            width: 45%;
+            height: 30px;
+        }
+        
+        .cancel-button:hover{
+            color: var(--highlight-color);
+            border-color: var(--highlight-color);
+        } 
+    }
+}
+
+.Uploud-button{
+    font-family: 'pixel', monospace;
+    border-radius: var(--small-corner-radius);
+    height: auto;
+    margin: 2px;
+}
+
+.upload-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-items: center;
+}

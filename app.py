@@ -4,7 +4,7 @@ import boto3
 app = Flask(__name__)
 s3 = boto3.client('s3')
 
-BUCKET_NAME = 'oksqmxowkmxopqwm2219-42-12mxwnsoi1jd23pwq-q1jijw1jd-93210ji3ep'
+BUCKET_NAME = 'my-app-bucket-afhoasihgoiahsgd035526asgtqt4625w'
 
 @app.route('/')
 def home():

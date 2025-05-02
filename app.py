@@ -68,7 +68,6 @@ def upload_file():
         return jsonify({"error": "No selected file"}), 400
 
     filename = secure_filename(file.filename)
-    return jsonify({"message": "File uploaded successfully"}), 200
     try:
         s3.upload_file(file, BUCKET_NAME, filename)
         return jsonify({"message": "File uploaded successfully"}), 200

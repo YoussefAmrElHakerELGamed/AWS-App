@@ -33,7 +33,7 @@
                     return;
                 }
                 alert(uplouded_file)
-                fetch('http://localhost:8080/upload', {method: 'GET', body: new FormData().append('file', uplouded_file)}).then(res => res.json).then(data => {
+                fetch('http://localhost:5000/upload', {method: 'GET', body: new FormData().append('file', uplouded_file)}).then(res => res.json).then(data => {
                     if(data.error){
                         alert("Upload failed please try again");
                     }
@@ -45,7 +45,7 @@
             });
 
             function refreash_file_list(file){
-                fetch('http://localhost:8080/list_files', {
+                fetch('http://localhost:5000/list_files', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json'
@@ -70,11 +70,11 @@
                                 `;
                             file_space.appendChild(div);
                             div.getElementById("delete-button-file-" + file.filename).addEventListener("click",(evt) => {
-                                fetch('http://localhost:8080/delete/' + file.filename, {method: 'GET'});
+                                fetch('http://localhost:5000/delete/' + file.filename, {method: 'GET'});
                             });
 
                             div.getElementById("share-button-file-" + file.filename).addEventListener("click", (evt)=> {
-                                fetch('http://localhost:8080/share/' + file.filename, {method: 'GET'}).then(res => res.json)
+                                fetch('http://localhost:5000/share/' + file.filename, {method: 'GET'}).then(res => res.json)
                             .then(data => {
                                 if(data.url){
                                     navigator.clipboard.writeText(data.url);

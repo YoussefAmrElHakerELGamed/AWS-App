@@ -44,7 +44,7 @@
 
             document.getElementById("Signup-page-contant").addEventListener('submit', (evt)=>{
                 if(password === confPassword){
-                    fetch('http://localhost:8080/SignUp', {
+                    fetch('http://localhost:5000/SignUp', {
                         method: 'POST',
                         headers:{
                             'Content-Type': 'application/json'

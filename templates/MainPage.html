@@ -108,13 +108,33 @@
                     });
                     const result = await res.json();
                     if (result?.url) {
-                        await fallbackCopyToClipboard(result.url);
+                        copyToClipboard(result.url);
                         alert("The URL has been copied to your clipboard.");
                     } else {
                         alert("Failed to retrieve shareable URL.");
                     }
                     });
                 });
+
+                function copyToClipboard(text) {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    textarea.style.position = 'fixed'; 
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        const success = document.execCommand('copy');
+                        if (success) {
+                        alert('Link copied to clipboard!');
+                        } else {
+                            throw new Error('Copy failed');
+                        }
+                    } catch (err) {
+                        alert('Failed to copy: ' + err.message);
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                    }
 
                 const warning = document.getElementById("no-files-uploaded-warning");
                 if (warning) warning.remove();

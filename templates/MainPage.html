@@ -108,7 +108,7 @@
                     });
                     const result = await res.json();
                     if (result?.url) {
-                        await navigator.clipboard.writeText(result.url);
+                        await fallbackCopyToClipboard(result.url);
                         alert("The URL has been copied to your clipboard.");
                     } else {
                         alert("Failed to retrieve shareable URL.");

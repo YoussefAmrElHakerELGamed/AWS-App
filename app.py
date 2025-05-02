@@ -70,7 +70,7 @@ def upload_file():
     filename = secure_filename(file.filename)
 
     try:
-        s3.upload_fileobj(file, BUCKET_NAME, filename)
+        s3.upload_file(file, BUCKET_NAME, filename)
         return jsonify({"message": "File uploaded successfully"}), 200
     except (BotoCoreError, ClientError) as e:
         return jsonify({"error": str(e)}), 500

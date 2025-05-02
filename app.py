@@ -4,7 +4,7 @@ import boto3
 app = Flask(__name__)
 s3 = boto3.client('s3')
 
-BUCKET_NAME = 'my-app-bucket-afhoasihgoiahsgd035526asgtqt4625w'
+BUCKET_NAME = 'oksqmxowkmxopqwm2219-42-12mxwnsoi1jd23pwq-q1jijw1jd-93210ji3ep'
 
 @app.route('/')
 def home():
@@ -37,7 +37,7 @@ def logIn():
             stored_obj = s3.get_object(Bucket=BUCKET_NAME, Key=password_key)
             stored_password = stored_obj['Body'].read().decode('utf-8')
             if stored_password == password:
-                return jsonify({'authenticated': True}), 200
+                return render_template('MainPage.html')
             else:
                 return jsonify({'authenticated': False}), 401
         except s3.exceptions.NoSuchKey:
@@ -60,7 +60,7 @@ def signUp():
     UserPassword = s3.put_object(Bucket=BUCKET_NAME, Key=password_key, Body=password)
 
     if UserPassword['ResponseMetadata']['HTTPStatusCode'] == 200 or UserFolder['ResponseMetadata']['HTTPStatusCode'] == 200:
-        return jsonify({'SignedUp': True}), 200
+        return render_template('logIn.html')
     else:
         return jsonify({'SignedUp': False}), 401
 

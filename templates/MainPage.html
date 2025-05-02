@@ -13,10 +13,10 @@
         </header>
         <div class="userInput">
             <label class="Username">User name</label>
-            <div class="upload-container">
+            <form class="upload-container" id="Upload form">
                 <input class="Uploud-button" id="Uploud-button" type="file" title="Upload a file"   accept=".jpg,.jpeg,.png,.pdf,.mp3,.mp4">
-                <input class="Uploud-button" id="uploud-button-input" type="button" value="uploud">
-            </div>
+                <input class="Uploud-button" id="uploud-button-input" type="submit" value="uploud">
+            </form>
         </div>
         <div class="files-space">
             <label class="no-files" id="no-files-uplouded-warning"><b>no files uplouded yet</b></label>
@@ -25,8 +25,9 @@
         <script>
             refreash_file_list();
             
-            document.getElementById("uploud-button-input").addEventListener("click", (evt) => {
+            document.getElementById("Upload form").addEventListener("submit", (evt) => {
                 const uplouded_file = document.getElementById("Uploud-button").files[0];
+                alert(uplouded_file)
                 if(uplouded_file == null){
                     alert("Enter your file, please")
                     return;
@@ -40,7 +41,6 @@
                         alert(data.message);
                         refreash_file_list();
                     }
-
                 });
             });
 

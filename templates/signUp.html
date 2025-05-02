@@ -26,23 +26,23 @@
                     <label for="confarm-password-input-field">confarm password</label>
                     <input class="passwordConf-field" id="SignUP-confarm-password-input-field" type="password" required>
                 </div>
-                <div class="Button-container">
-                    <input class="Signpage-button" id="Signup-page-button-input" type="button" value="Sign up">
-                </div>
+                <form class="Button-container" id="Signup-page-contant">
+                    <input class="Signpage-button" id="Signup-page-button-input" type="submit" value="Sign up">
+                </form>
             </form>
             <div>
-                <form class="back-to-login" id="back-to-login" action="./logIn.html">
+                <form class="back-to-login" id="back-to-login">
                     <input class="back-to-login-button" type="submit" value="have an account Log In">
                 </form>
             </div>
         </main>
-        <link rel="stylesheet" href="../static//style.css">
+        <link rel="stylesheet" href="../static/style.css">
         <script>
             let username = document.getElementById('SignUP-username-input-field').value;
             let password = document.getElementById('SignUP-password-input-field').value;
             let confPassword = document.getElementById('SignUP-confarm-password-input-field').value;
 
-            document.getElementById("Signup-page-button-input").addEventListener('clicked', (evt)=>{
+            document.getElementById("Signup-page-contant").addEventListener('submit', (evt)=>{
                 if(password === confPassword){
                     fetch('http://localhost:8080/SignUp', {
                         method: 'POST',

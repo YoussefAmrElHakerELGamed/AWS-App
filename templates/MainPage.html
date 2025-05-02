@@ -14,7 +14,7 @@
         <div class="userInput">
             <label class="Username">Hello there</label>
             <form class="upload-container" id="Upload form" enctype="multipart/form-data">
-                <input class="Uploud-button" id="Uploud-button" type="file" title="Upload a file"   accept=".jpg,.jpeg,.png,.pdf,.mp3,.mp4">
+                <input class="Uploud-button" id="Uploud-field" type="file" title="Upload a file" accept=".jpg,.jpeg,.png,.pdf,.mp3,.mp4" required>
                 <input class="Uploud-button" id="uploud-button-input" type="submit" value="uploud">
             </form>
         </div>
@@ -31,7 +31,7 @@
                 uploadForm.addEventListener("submit", async (event) => {
                 event.preventDefault();
 
-                const fileInput = document.getElementById("upload-button");
+                const fileInput = document.getElementById("Uploud-field");
                 const uploadedFile = fileInput?.files[0];
 
                 if (!uploadedFile) {

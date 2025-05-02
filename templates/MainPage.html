@@ -93,10 +93,8 @@
                     </div>
                     `;
 
-                    // Append file card
                     fileSpace.appendChild(fileContainer);
 
-                    // Attach delete event
                     fileContainer.querySelector(".delete-file").addEventListener("click", async () => {
                     await fetch(`http://localhost:5000/delete/${encodeURIComponent(file.filename)}`, {
                         method: "GET",
@@ -104,7 +102,6 @@
                     refreshFileList();
                     });
 
-                    // Attach share event
                     fileContainer.querySelector(".share-file").addEventListener("click", async () => {
                     const res = await fetch(`http://localhost:5000/share/${encodeURIComponent(file.filename)}`, {
                         method: "GET",
@@ -119,7 +116,6 @@
                     });
                 });
 
-                // Remove "no files" warning if it exists
                 const warning = document.getElementById("no-files-uploaded-warning");
                 if (warning) warning.remove();
                 } else {

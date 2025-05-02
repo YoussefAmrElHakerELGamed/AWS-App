@@ -2,8 +2,11 @@ from flask import Flask, request, jsonify, render_template
 import boto3
 from botocore.exceptions import BotoCoreError, ClientError
 from werkzeug.utils import secure_filename
+from flask_cors import CORS
+
 
 app = Flask(__name__)
+CORS(app)
 s3 = boto3.client('s3')
 
 BUCKET_NAME = 'my-app-bucket-afhoasihgoiahsgd035526asgtqt4625w'

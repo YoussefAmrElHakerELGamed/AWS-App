@@ -23,80 +23,118 @@
         </div>
         <link rel="stylesheet" href="../static/style.css">
         <script>
-            refreash_file_list();
-            
-            document.getElementById("Upload form").addEventListener("submit", (evt) => {
-                const uplouded_file = document.getElementById("Uploud-button").files[0];
-                alert(uplouded_file)
-                if(uplouded_file == null){
-                    alert("Enter your file, please")
+            document.addEventListener("DOMContentLoaded", () => {
+            refreshFileList();
+
+            const uploadForm = document.getElementById("upload-form");
+            if (uploadForm) {
+                uploadForm.addEventListener("submit", async (event) => {
+                event.preventDefault();
+
+                const fileInput = document.getElementById("upload-button");
+                const uploadedFile = fileInput?.files[0];
+
+                if (!uploadedFile) {
+                    alert("Please select a file to upload.");
                     return;
                 }
-                alert(uplouded_file)
-                fetch('http://localhost:5000/upload', {method: 'GET', body: new FormData().append('file', uplouded_file)}).then(res => res.json).then(data => {
-                    if(data.error){
-                        alert("Upload failed please try again");
-                    }
-                    if(data.message == "File uploaded successfully"){
-                        alert(data.message);
-                        refreash_file_list();
-                    }
-                });
-            });
 
-            function refreash_file_list(file){
-                fetch('http://localhost:5000/list_files', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-                }).then(res => res.json()).then(files => {
-                    const file_space = document.getElementById("files-space");
-                    if(data.files.length > 0){
-                        files.forEach(file => {
-                            file_space.innerHTML = "";
-                            const div = document.createElement("div");
-                            div.className = "file-ditals";
-                            div.innerHTML = `
-                                <div class="file-info">
-                                    <label class="filename id="title-">${file.filename}</label>
-                                    <label class="file-uploud-Datetime id="last-modefide-">${file.last_modified}</label>
-                                </div>
-                                 <div class="file-actions">
-                                    <input type="button" class="delete-file" id="delete-button-file-${file.filename}" value="Delete" title="this action CANNOT be undone">
-                                    <input type="button" class="share-file" id="share-button-file-${file.filename}" value="Share">
-                                </div>
-                                `;
-                            file_space.appendChild(div);
-                            div.getElementById("delete-button-file-" + file.filename).addEventListener("click",(evt) => {
-                                fetch('http://localhost:5000/delete/' + file.filename, {method: 'GET'});
-                            });
+                try {
+                    const formData = new FormData();
+                    formData.append("file", uploadedFile);
 
-                            div.getElementById("share-button-file-" + file.filename).addEventListener("click", (evt)=> {
-                                fetch('http://localhost:5000/share/' + file.filename, {method: 'GET'}).then(res => res.json)
-                            .then(data => {
-                                if(data.url){
-                                    navigator.clipboard.writeText(data.url);
-                                    alert('the url has been copyed to your clipboard');
-                                }else{
-                                    alert('failed to get the url');
-                                }
-                            });
-                            });
+                    const response = await fetch("http://localhost:5000/upload", {
+                    method: "POST",
+                    body: formData,
                     });
-                    document.removeChild(document.getElementById("no-files-uplouded-warning"));
-                    }else{
-                        if(document.getElementById("no-files-uplouded-warning")){
-                            return;
-                        }
-                        const label = document.createElement("label");
-                        label.value = "no files uplouded yet";
-                        label.id = "no-files-uplouded-warning";
-                        label.className = "no-files";
-                        document.getElementById("files-space").appendChild(label);
+
+                    const data = await response.json();
+
+                    if (data?.error) {
+                    alert("Upload failed. Please try again.");
+                    } else if (data?.message === "File uploaded successfully") {
+                    alert(data.message);
+                    refreshFileList();
                     }
+                } catch (error) {
+                    console.error("Upload error:", error);
+                    alert("An unexpected error occurred during upload.");
+                }
                 });
             }
+            });
+
+            async function refreshFileList() {
+            try {
+                const response = await fetch("http://localhost:5000/list_files", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                });
+
+                const data = await response.json();
+                const fileSpace = document.getElementById("files-space");
+                fileSpace.innerHTML = "";
+
+                if (data?.files?.length > 0) {
+                data.files.forEach((file) => {
+                    const fileContainer = document.createElement("div");
+                    fileContainer.className = "file-details";
+
+                    fileContainer.innerHTML = `
+                    <div class="file-info">
+                        <label class="filename" id="title-${file.filename}">${file.filename}</label>
+                        <label class="file-upload-datetime" id="last-modified-${file.filename}">${file.last_modified}</label>
+                    </div>
+                    <div class="file-actions">
+                        <input type="button" class="delete-file" value="Delete" title="This action CANNOT be undone" />
+                        <input type="button" class="share-file" value="Share" />
+                    </div>
+                    `;
+
+                    // Append file card
+                    fileSpace.appendChild(fileContainer);
+
+                    // Attach delete event
+                    fileContainer.querySelector(".delete-file").addEventListener("click", async () => {
+                    await fetch(`http://localhost:5000/delete/${encodeURIComponent(file.filename)}`, {
+                        method: "GET",
+                    });
+                    refreshFileList();
+                    });
+
+                    // Attach share event
+                    fileContainer.querySelector(".share-file").addEventListener("click", async () => {
+                    const res = await fetch(`http://localhost:5000/share/${encodeURIComponent(file.filename)}`, {
+                        method: "GET",
+                    });
+                    const result = await res.json();
+                    if (result?.url) {
+                        await navigator.clipboard.writeText(result.url);
+                        alert("The URL has been copied to your clipboard.");
+                    } else {
+                        alert("Failed to retrieve shareable URL.");
+                    }
+                    });
+                });
+
+                // Remove "no files" warning if it exists
+                const warning = document.getElementById("no-files-uploaded-warning");
+                if (warning) warning.remove();
+                } else {
+                if (!document.getElementById("no-files-uploaded-warning")) {
+                    const label = document.createElement("label");
+                    label.textContent = "No files uploaded yet.";
+                    label.id = "no-files-uploaded-warning";
+                    label.className = "no-files";
+                    fileSpace.appendChild(label);
+                }
+                }
+            } catch (err) {
+                console.error("Error fetching file list:", err);
+            }
+        }
 
         </script>
     </body>
